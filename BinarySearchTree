@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+struct TreeNode* createNode(int value) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    newNode->data = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct TreeNode* insertNode(struct TreeNode* node, int value) {
+    if (node == NULL) {
+        return createNode(value);
+    }
+    if (value < node->data) {
+        node->left = insertNode(node->left, value);
+    }
+    else {
+        node->right = insertNode(node->right, value);
+    }
+    return node;
+}
+
+struct TreeNode* searchNode(struct TreeNode* node, int value) {
+    if (node == NULL || node->data == value) {
+        return node;
+    }
+    if (value < node->data) {
+        return searchNode(node->left, value);
+    }
+    else {
+        return searchNode(node->right, value);
+    }
+}
+
+int main() {
+    struct TreeNode* root = NULL;
+
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 70);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    int searchValue = 40;
+    struct TreeNode* searchResult = searchNode(root, searchValue);
+    if (searchResult != NULL) {
+        printf("Search %d: Found\n", searchValue);
+    }
+    else {
+        printf("Search %d: Not Found\n", searchValue);
+    }
+
+    searchValue = 55;
+    searchResult = searchNode(root, searchValue);
+    if (searchResult != NULL) {
+        printf("Search %d: Found\n", searchValue);
+    }
+    else {
+        printf("Search %d: Not Found\n", searchValue);
+    }
+
+    return 0;
+}
