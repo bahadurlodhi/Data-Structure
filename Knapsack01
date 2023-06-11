@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+int knapsack(int W, int wt[], int val[], int n) {
+    if (n == 0 || W == 0)
+        return 0;
+
+    if (wt[n - 1] > W)
+        return knapsack(W, wt, val, n - 1);
+
+    int include = val[n - 1] + knapsack(W - wt[n - 1], wt, val, n - 1);
+    int exclude = knapsack(W, wt, val, n - 1);
+
+    return max(include, exclude);
+}
+
+int main() {
+    int W = 10; 
+    int wt[] = {2, 5, 4, 3}; 
+    int val[] = {10, 20, 30, 40}; 
+    int n = sizeof(wt) / sizeof(wt[0]);
+
+    int maxValue = knapsack(W, wt, val, n);
+    cout << "Maximum value that can be obtained: " << maxValue << endl;
+
+    return 0;
+}
